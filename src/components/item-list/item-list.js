@@ -2,47 +2,44 @@ import React, { useState, useEffect, useContext } from "react";
 
 import Spinner from "../Spinner";
 
-import { SwapiContext } from "../SwapiContext";
-
 import "./item-list.css";
 
-const ItemList = ({ getItemID }) => {
+const ItemList = ({ getItemID, getData, render }) => {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  const swapi = useContext(SwapiContext);
-
-  const updatePeopleList = () => {
-    swapi.getAllPeople().then((people) => {
-      setData(people);
+  const updateItemsList = () => {
+    getData().then((items) => {
+      setData(items);
       setLoaded(true);
     });
   };
 
   useEffect(() => {
-    updatePeopleList();
+    updateItemsList();
   }, []);
 
   const clickedItem = (id) => {
     getItemID(id);
   };
 
-  const peopleList = data.map((person) => {
+  const itemsList = data.map((item) => {
+    const label = render(item);
     return (
       <li
         className='list-group-item'
-        key={person.id}
+        key={item.id}
         onClick={() => {
-          clickedItem(person.id);
+          clickedItem(item.id);
         }}
       >
-        {person.name}
+        {label}
       </li>
     );
   });
 
   return (
-    <ul className='item-list list-group'>{data ? peopleList : <Spinner />}</ul>
+    <ul className='item-list list-group'>{loaded ? itemsList : <Spinner />}</ul>
   );
 };
 

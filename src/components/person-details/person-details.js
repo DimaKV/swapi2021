@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import Spinner from "../Spinner";
 import { SwapiContext } from "../SwapiContext";
 
 import "./person-details.css";
@@ -18,11 +19,20 @@ const PersonDetails = ({ personID }) => {
 
   useEffect(() => {
     personID && updatePerson();
+    return setLoaded(false);
   }, [personID]);
 
   return (
     <div className='person-details card'>
-      {personID ? <PersonView data={data} /> : "Nothing to show"}
+      {personID ? (
+        loaded ? (
+          <PersonView data={data} />
+        ) : (
+          <Spinner />
+        )
+      ) : (
+        "Nothing to show"
+      )}
     </div>
   );
 };
