@@ -1,6 +1,7 @@
 import React from "react";
 import ItemList from "../item-list";
-import PersonDetails from "../person-details";
+import ItemDetails from "../item-details";
+import Row from "../row";
 
 import { SwapiContext } from "../SwapiContext";
 
@@ -11,22 +12,18 @@ const PeoplePage = () => {
   const getItemID = (id) => {
     setID(id);
   };
-  return (
-    <div className='row mb2'>
-      <div className='col-md-6'>
-        <ItemList
-          getItemID={getItemID}
-          getData={swapi.getAllPeople}
-          render={(item) => {
-            item.name, item.birthYear;
-          }}
-        />
-      </div>
-      <div className='col-md-6'>
-        <PersonDetails personID={ID} />
-      </div>
-    </div>
+
+  const itemList = (
+    <ItemList getItemID={getItemID} getData={swapi.getAllPeople}>
+      {(item) => {
+        return `name: ${item.name}, gender: ${item.gender}`;
+      }}
+    </ItemList>
   );
+
+  const itemDetails = <ItemDetails itemID={ID} getData={swapi.getPerson} />;
+
+  return <Row left={itemList} right={itemDetails} />;
 };
 
 export default PeoplePage;

@@ -29,41 +29,10 @@ const App = () => {
     <SwapiContext.Provider value={swapi}>
       <Header />
       {btnState && <RandomPlanet />}
-      <button className='btn btn-primary' onClick={handlerBtn}>
+      <button className='btn btn-danger' onClick={handlerBtn}>
         Toggle Planet
       </button>
-
-      {/* <PeoplePage /> */}
-
-      <div className='row mb2'>
-        <div className='col-md-6'>
-          <ItemList
-            getItemID={getItemID}
-            getData={swapi.getAllPlanets}
-            render={(item) => {
-              return `name: ${item.name}, rotation: ${item.rotationPeriod}`;
-            }}
-          />
-        </div>
-        <div className='col-md-6'>
-          <PersonDetails personID={ID} />
-        </div>
-      </div>
-
-      <div className='row mb2'>
-        <div className='col-md-6'>
-          <ItemList
-            getItemID={getItemID}
-            getData={swapi.getAllStarships}
-            render={(item) => {
-              return `name: ${item.name}, crem: ${item.crew}`;
-            }}
-          />
-        </div>
-        <div className='col-md-6'>
-          <PersonDetails personID={ID} />
-        </div>
-      </div>
+      <PeoplePage />
     </SwapiContext.Provider>
   );
 };

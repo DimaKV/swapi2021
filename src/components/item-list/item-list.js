@@ -4,7 +4,7 @@ import Spinner from "../Spinner";
 
 import "./item-list.css";
 
-const ItemList = ({ getItemID, getData, render }) => {
+const ItemList = ({ getItemID, getData, children }) => {
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -24,7 +24,7 @@ const ItemList = ({ getItemID, getData, render }) => {
   };
 
   const itemsList = data.map((item) => {
-    const label = render(item);
+    const label = children(item);
     return (
       <li
         className='list-group-item'
