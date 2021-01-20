@@ -31,6 +31,7 @@ const ItemList = ({ getItemID, getData, children }) => {
         key={item.id}
         onClick={() => {
           clickedItem(item.id);
+          console.log(item.id);
         }}
       >
         {label}

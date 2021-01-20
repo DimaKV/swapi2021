@@ -4,7 +4,18 @@ import { SwapiContext } from "../SwapiContext";
 
 import "./item-details.css";
 
-const ItemDetails = ({ itemID, getData }) => {
+const Record = ({ data, field, label }) => {
+  return (
+    <li className='list-group-item'>
+      <span className='term'>{label}</span>
+      <span>{data[field]}</span>
+    </li>
+  );
+};
+
+export { Record };
+
+const ItemDetails = ({ itemID, getData, getUrlImg, children }) => {
   const [data, setData] = useState({});
   const [loaded, setLoaded] = useState(false);
 
@@ -22,11 +33,23 @@ const ItemDetails = ({ itemID, getData }) => {
     return setLoaded(false);
   }, [itemID]);
 
+  const { id, name, gender, birthYear, hairColor } = data;
+
   return (
     <div className='person-details card'>
       {itemID ? (
         loaded ? (
-          <ItemView data={data} />
+          <>
+            <img className='person-image' src={getUrlImg(id)} />
+            <div className='card-body'>
+              <h4>{name}</h4>
+              <ul className='list-group list-group-flush'>
+                {React.Children.map(children, (child) => {
+                  return React.cloneElement(child, { data });
+                })}
+              </ul>
+            </div>
+          </>
         ) : (
           <Spinner />
         )
@@ -37,33 +60,21 @@ const ItemDetails = ({ itemID, getData }) => {
   );
 };
 
-const ItemView = ({ data }) => {
-  const { id, name, gender, birthYear, hairColor } = data;
-  return (
-    <>
-      <img
-        className='person-image'
-        src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-      />
-      <div className='card-body'>
-        <h4>{name}</h4>
-        <ul className='list-group list-group-flush'>
-          <li className='list-group-item'>
-            <span className='term'>Gender</span>
-            <span>{gender}</span>
-          </li>
-          <li className='list-group-item'>
-            <span className='term'>Birth Year</span>
-            <span>{birthYear}</span>
-          </li>
-          <li className='list-group-item'>
-            <span className='term'>Hair color</span>
-            <span>{hairColor}</span>
-          </li>
-        </ul>
-      </div>
-    </>
-  );
-};
+// const ItemView = ({ data, getUrlImg, children }) => {
+//   const { id, name, gender, birthYear, hairColor } = data;
+//   return (
+//     <>
+//       <img className='person-image' src={getUrlImg(id)} />
+//       <div className='card-body'>
+//         <h4>{name}</h4>
+//         <ul className='list-group list-group-flush'>
+//           {React.Children.map(children, (child, indx) => {
+//             return child;
+//           })}
+//         </ul>
+//       </div>
+//     </>
+//   );
+// };
 
 export default ItemDetails;

@@ -7,7 +7,7 @@ import { Record } from "../item-details/item-details";
 
 import { SwapiContext } from "../SwapiContext";
 
-const PeoplePage = () => {
+const StarshipPage = () => {
   const swapi = React.useContext(SwapiContext);
 
   const [ID, setID] = React.useState(null);
@@ -16,9 +16,9 @@ const PeoplePage = () => {
   };
 
   const itemList = (
-    <ItemList getItemID={getItemID} getData={swapi.getAllPeople}>
+    <ItemList getItemID={getItemID} getData={swapi.getAllStarships}>
       {(item) => {
-        return `name: ${item.name}, gender: ${item.gender}`;
+        return `name: ${item.name}, crew: ${item.crew}`;
       }}
     </ItemList>
   );
@@ -26,15 +26,16 @@ const PeoplePage = () => {
   const itemDetails = (
     <ItemDetails
       itemID={ID}
-      getData={swapi.getPerson}
-      getUrlImg={swapi.getPersonImg}
+      getData={swapi.getStarship}
+      getUrlImg={swapi.getStarshipImg}
     >
-      <Record field='gender' label='Gender' />
-      <Record field='hairColor' label='Color of hair' />
+      <Record field='crew' label='Crew' />
+      <Record field='model' label='model' />
+      <Record field='costInCredits' label='Cost' />
     </ItemDetails>
   );
 
   return <Row left={itemList} right={itemDetails} />;
 };
 
-export default PeoplePage;
+export default StarshipPage;

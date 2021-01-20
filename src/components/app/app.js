@@ -2,9 +2,8 @@ import React from "react";
 
 import Header from "../header";
 import RandomPlanet from "../random-planet";
-import ItemList from "../item-list";
-import PersonDetails from "../person-details";
 import PeoplePage from "../people-page";
+import StarshipPage from "../starship-page";
 import SwapiService from "../../services/swapi-service";
 
 import { SwapiContext } from "../SwapiContext";
@@ -33,6 +32,8 @@ const App = () => {
         Toggle Planet
       </button>
       <PeoplePage />
+      <br />
+      <StarshipPage />
     </SwapiContext.Provider>
   );
 };
