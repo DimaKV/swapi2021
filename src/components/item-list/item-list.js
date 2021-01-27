@@ -4,21 +4,7 @@ import Spinner from "../Spinner";
 
 import "./item-list.css";
 
-const ItemList = ({ getItemID, getData, children }) => {
-  const [data, setData] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-
-  const updateItemsList = () => {
-    getData().then((items) => {
-      setData(items);
-      setLoaded(true);
-    });
-  };
-
-  useEffect(() => {
-    updateItemsList();
-  }, []);
-
+const ItemList = ({ getItemID, children, data }) => {
   const clickedItem = (id) => {
     getItemID(id);
   };
@@ -31,7 +17,6 @@ const ItemList = ({ getItemID, getData, children }) => {
         key={item.id}
         onClick={() => {
           clickedItem(item.id);
-          console.log(item.id);
         }}
       >
         {label}
@@ -39,9 +24,33 @@ const ItemList = ({ getItemID, getData, children }) => {
     );
   });
 
-  return (
-    <ul className='item-list list-group'>{loaded ? itemsList : <Spinner />}</ul>
-  );
+  return <ul className='item-list list-group'>{itemsList}</ul>;
 };
 
-export default ItemList;
+const withData = (View, getData) => {
+  return (props) => {
+    const [data, setData] = useState([]);
+    const [loaded, setLoaded] = useState(false);
+
+    const updateItemsList = () => {
+      getData().then((items) => {
+        setData(items);
+        setLoaded(true);
+      });
+    };
+
+    useEffect(() => {
+      updateItemsList();
+    }, []);
+
+    if (!loaded) {
+      return <Spinner />;
+    }
+
+    return <View {...props} data={data} />;
+  };
+};
+
+const { getData } = props;
+
+export default withData(ItemList, getData);

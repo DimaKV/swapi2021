@@ -33,7 +33,7 @@ const App = () => {
       </button>
       <PeoplePage />
       <br />
-      <StarshipPage />
+      {/* <StarshipPage /> */}
     </SwapiContext.Provider>
   );
 };
